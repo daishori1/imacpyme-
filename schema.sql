@@ -31,5 +31,5 @@ CHECK (cost >= 0 ;)
 ALTER TABLE stock 
 ADD CONSTRAINT stock_amount_nonnegative
 CHECK (stock >=0) ; 
-
+-- test example - 
 INSERT INTO users   (name,phone,email,rol,active) values ('ramon lozano','3326121199','wairu63@gmail.com','data base admin',TRUE) ;
