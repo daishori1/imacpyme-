@@ -4,8 +4,19 @@ const app = express();
 
 
 
-app.get('/test', async (req , res) =>{
+app.get('/users', async (req , res) =>{
     const {rows} = await pool.query("SELECT * FROM public.users;")
+        res.send(rows).json
+    
+});
+
+app.get('/stock', async (req , res) =>{
+    const {rows} = await pool.query("SELECT * FROM public.stock;")
+        res.send(rows).json
+    
+});
+app.get('/vendors', async (req , res) =>{
+    const {rows} = await pool.query("SELECT * FROM public.vendors;")
         res.send(rows).json
     
 });
