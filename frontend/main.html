@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="./log.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="d-flex">
+
+    <!-- Sidebar -->
+    <div class="bg-dark text-white vh-100 p-3" style="width: 240px;">
+        <h4 class="mb-4">Dashboard</h4>
+
+        <div class="accordion accordion-flush" id="sidebarAccordion">
+
+            <!-- Stock -->
+            <div class="accordion-item bg-dark border-0">
+                <h2 class="accordion-header">
+                    <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStock">
+                        Stock
+                    </button>
+                </h2>
+                <div id="collapseStock" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+                    <div class="accordion-body p-0">
+                        <a href="/stock.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Ver tabla</a>
+                        <a href="/stock-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Agregar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendors -->
+            <div class="accordion-item bg-dark border-0">
+                <h2 class="accordion-header">
+                    <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVendors">
+                        Vendors
+                    </button>
+                </h2>
+                <div id="collapseVendors" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+                    <div class="accordion-body p-0">
+                        <a href="/vendors.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Ver tabla</a>
+                        <a href="/vendors-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Agregar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users -->
+            <div class="accordion-item bg-dark border-0">
+                <h2 class="accordion-header">
+                    <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsers">
+                        Users
+                    </button>
+                </h2>
+                <div id="collapseUsers" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+                    <div class="accordion-body p-0">
+                        <a href="/users.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Ver tabla</a>
+                        <a href="/users-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Agregar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-grow-1 p-4">
+        <h2 class="mb-4">Bienvenido</h2>
+        <h5 class="mb-3">Últimos 10 movimientos de stock</h5>
+
+        <table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Marca</th>
+            <th>Stock</th>
+            <th>Costo</th>
+            <th>Ubicación</th>
+            <th>Última actividad</th>
+        </tr>
+    </thead>
+    <tbody id="tabla-body">
+        <tr><td colspan="7" class="text-center">Cargando...</td></tr>
+    </tbody>
+</table>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    fetch('/stock/recent')
+    .then(res => res.json())
+    .then(data => {
+        const tbody = document.getElementById('tabla-body');
+        tbody.innerHTML = '';
+
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center">Sin registros</td></tr>';
+            return;
+        }
+
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            const fecha = new Date(row.updated_at).toLocaleString();
+            tr.innerHTML = `
+                <td>${row.item_id}</td>
+                <td>${row.product_name}</td>
+                <td>${row.brand}</td>
+                <td>${row.stock}</td>
+                <td>${row.cost}</td>
+                <td>${row.location ?? '—'}</td>
+                <td>${fecha}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    })
+    .catch(() => {
+        document.getElementById('tabla-body').innerHTML =
+            '<tr><td colspan="7" class="text-center text-danger">Error al cargar datos</td></tr>';
+    });
+</script>
+
+</body>
+</html>

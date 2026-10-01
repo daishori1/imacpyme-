@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./log.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container py-5" style="max-width: 500px;">
+    <h2 class="mb-4">Add User</h2>
+
+    <form id="user-form">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" name="phone">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Role</label>
+            <input type="text" class="form-control" name="rol" required>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="active" name="active">
+            <label class="form-check-label" for="active">Active</label>
+        </div>
+
+        <div id="form-msg" class="mb-3"></div>
+
+        <button type="submit" class="btn btn-primary">Save User</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('user-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const msg = document.getElementById('form-msg');
+
+    const payload = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        rol: form.rol.value,
+        active: form.active.checked
+    };
+
+    try {
+        const res = await fetch('/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            msg.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+            return;
+        }
+
+        msg.innerHTML = `<div class="alert alert-success">User added successfully</div>`;
+        form.reset();
+    } catch {
+        msg.innerHTML = `<div class="alert alert-danger">Could not reach the server</div>`;
+    }
+});
+</script>
+
+</body>
+</html>
