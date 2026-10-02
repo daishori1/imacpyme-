@@ -26,5 +26,15 @@
   
 "dev": "nodemon routes.js"
   
+},
+  
+"dependencies": {
+  
+  
+"express-session": "^1.19.0",
+  
+  
+"googleapis": "^182.0.0"
+  
 }
 }
