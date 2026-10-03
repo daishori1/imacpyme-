@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="./theme.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Stock Item — Fireasset</title>
@@ -14,7 +15,7 @@
 
     <!-- Sidebar -->
     <div class="bg-dark text-white vh-100 p-3 d-flex flex-column" style="width: 240px;">
-        <h4 class="mb-4"><i class="bi bi-fire text-warning me-1"></i>Fireasset</h4>
+        <h4  href="/main.html"   class="mb-4"><a href="/main.html"   class="bi bi-fire text-warning me-1"   ></a>Fireasset</h4>
 
         <div class="accordion accordion-flush" id="sidebarAccordion">
 
@@ -62,19 +63,23 @@
 
         </div>
 
-        <div class="mt-auto pt-3 border-top border-secondary">
-            <button class="btn btn-outline-light btn-sm w-100 mb-2" data-bs-toggle="modal" data-bs-target="#profileModal">
-                <i class="bi bi-person-circle me-1"></i> View Profile
-            </button>
-            <a href="/auth/logout" class="btn btn-outline-danger btn-sm w-100">
-                <i class="bi bi-box-arrow-right me-1"></i> Log Out
-            </a>
-        </div>
+       <div class="mt-auto pt-3 border-top border-secondary">
+    <button class="btn btn-outline-light btn-sm w-100 mb-2" onclick="toggleTheme()">
+        <i id="theme-toggle-icon" class="bi bi-moon-stars-fill me-1"></i> Toggle Theme
+    </button>
+    <button class="btn btn-outline-light btn-sm w-100 mb-2" data-bs-toggle="modal" data-bs-target="#profileModal">
+        <i class="bi bi-person-circle me-1"></i> View Profile
+    </button>
+    <a href="/auth/logout" class="btn btn-outline-danger btn-sm w-100">
+        <i class="bi bi-box-arrow-right me-1"></i> Log Out
+    </a>
+</div>
     </div>
 
     <!-- Main content -->
-    <div class="flex-grow-1 p-4 bg-light" style="min-height: 100vh;">
-        <div style="max-width: 500px;">
+   <div class="flex-grow-1 p-4 bg-light" style="min-height: 100vh;">
+    <div class="row" style="max-width: 900px;">
+        <div class="col-md-7">
             <h2 class="mb-4"><i class="bi bi-box-seam me-2 text-primary"></i>Add Stock Item</h2>
 
             <div class="card shadow-sm border-0">
@@ -133,7 +138,22 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-5">
+            <div class="card border-0 bg-white shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted mb-3"><i class="bi bi-info-circle me-1"></i>Tips</h6>
+                    <ul class="small text-muted ps-3 mb-0">
+                        <li class="mb-2">Serial numbers must be unique per item.</li>
+                        <li class="mb-2">Minimum and maximum stock levels default to 5 and 100 — you can adjust them after saving by editing the row in the table.</li>
+                        <li class="mb-2">Leave Vendor empty if the item was donated or internally sourced.</li>
+                        <li>Vendor and "Added By" can't be changed later — double-check before saving.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
 </div>
 

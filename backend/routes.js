@@ -194,16 +194,38 @@ res.status(500).send({'errror':'unable to reach the data base'});
  
 }});
 //get stock 
-app.get('/stock',requireAuth, async (req , res) =>{
-    try{
-    const {rows} = await pool.query("SELECT * FROM public.stock;");
-    if(rows.length===0){
-    return  res.status(404).send({'error':'no data found in the treat'});
- }       
- res.status(200).json(rows);
- } catch{
-res.status(500).send({'errror':'unable to reach the data base'});
- }});
+app.get('/stock', requireAuth, async (req, res) => {
+    try {
+        const { rows } = await pool.query(`
+            SELECT s.*, v.name AS vendor_name
+            FROM public.stock s
+            LEFT JOIN public.vendors v ON v.vendor_id = s.vendor
+            ORDER BY s.item_id;
+        `);
+        if (rows.length === 0) return res.status(404).send({ error: 'no data found' });
+        res.status(200).json(rows);
+    } catch {
+        res.status(500).send({ error: 'unable to reach the database' });
+    }
+});
+app.put('/stock/:id', requireAuth, async (req, res) => {
+    const { id } = req.params;
+    const { product_name, serial_number, brand, stock, cost, owner, location, min_stock, max_stock } = req.body;
+    try {
+        const { rows } = await pool.query(
+            `UPDATE public.stock
+             SET product_name = $1, serial_number = $2, brand = $3, stock = $4,
+                 cost = $5, owner = $6, location = $7, min_stock = $8, max_stock = $9
+             WHERE item_id = $10 RETURNING *;`,
+            [product_name, serial_number, brand, stock, cost, owner, location || null, min_stock, max_stock, id]
+        );
+        if (rows.length === 0) return res.status(404).send({ error: 'item not found' });
+        res.status(200).json(rows[0]);
+    } catch (err) {
+        if (err.code === '23505') return res.status(409).send({ error: 'serial number already exists' });
+        res.status(500).send({ error: 'unable to reach the database' });
+    }
+});
 
 app.get('/vendors',requireAuth, async (req , res) =>{
     try {
@@ -244,6 +266,35 @@ app.get('/stock/summary', requireAuth, async (req, res) => {
     }
 });
 
+app.patch('/vendors/:id/active', requireAuth, async (req, res) => {
+    const { active } = req.body;
+    try {
+        const { rows } = await pool.query(
+            `UPDATE public.vendors SET active = $1 WHERE vendor_id = $2 RETURNING *;`,
+            [active, req.params.id]
+        );
+        if (rows.length === 0) return res.status(404).send({ error: 'vendor not found' });
+        res.status(200).json(rows[0]);
+    } catch {
+        res.status(500).send({ error: 'unable to reach the database' });
+    }
+});
+
+app.patch('/users/:id/active', requireAuth, async (req, res) => {
+    const { active } = req.body;
+    try {
+        const { rows } = await pool.query(
+            `UPDATE public.users SET active = $1 WHERE users_id = $2 RETURNING *;`,
+            [active, req.params.id]
+        );
+        if (rows.length === 0) return res.status(404).send({ error: 'user not found' });
+        res.status(200).json(rows[0]);
+    } catch {
+        res.status(500).send({ error: 'unable to reach the database' });
+    }
+});
+
+
 app.get('/auth/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/login.html');
@@ -257,9 +308,13 @@ app.get('/api/me', requireAuth, (req, res) => {
 app.get('/stock/low', requireAuth, async (req, res) => {
     try {
         const { rows } = await pool.query(`
-            SELECT item_id, product_name, brand, stock, min_stock
+            SELECT item_id, product_name, brand, stock, min_stock, max_stock,
+                   CASE
+                       WHEN stock < min_stock THEN 'low'
+                       WHEN stock > max_stock THEN 'high'
+                   END AS alert_type
             FROM public.stock
-            WHERE stock < min_stock
+            WHERE stock < min_stock OR stock > max_stock
             ORDER BY stock ASC;
         `);
         res.status(200).json(rows);
@@ -285,6 +340,54 @@ app.get('/dashboard/stats', requireAuth, async (req, res) => {
         });
     } catch {
         res.status(500).send({ error: 'unable to reach the database' });
+    }
+});
+
+
+app.post('/stock/notify-low', requireAuth, async (req, res) => {
+    try {
+        const { rows } = await pool.query(`
+            SELECT item_id, product_name, stock, min_stock, max_stock,
+                   CASE
+                       WHEN stock < min_stock THEN 'low'
+                       WHEN stock > max_stock THEN 'high'
+                   END AS alert_type
+            FROM public.stock
+            WHERE stock < min_stock OR stock > max_stock
+            ORDER BY stock ASC;
+        `);
+
+        if (rows.length === 0) {
+            return res.status(200).send({ message: 'no stock alerts, no notification sent' });
+        }
+
+        const lowItems = rows.filter(r => r.alert_type === 'low');
+        const highItems = rows.filter(r => r.alert_type === 'high');
+
+        let content = `🚨 **Stock Alert** — ${rows.length} item(s) need attention:\n\n`;
+
+        if (lowItems.length > 0) {
+            content += `**⬇️ Below minimum:**\n`;
+            content += lowItems.map(r => `• ${r.product_name} — ${r.stock} units (min: ${r.min_stock})`).join('\n');
+            content += '\n\n';
+        }
+
+        if (highItems.length > 0) {
+            content += `**⬆️ Overstocked:**\n`;
+            content += highItems.map(r => `• ${r.product_name} — ${r.stock} units (max: ${r.max_stock})`).join('\n');
+        }
+
+        await fetch(process.env.DISCORD_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content })
+        });
+
+        res.status(200).send({ message: 'notification sent', count: rows.length });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ error: 'failed to send notification' });
     }
 });
 
