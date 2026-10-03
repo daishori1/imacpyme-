@@ -24,6 +24,9 @@ Despliegue	Vercel
 Alertas	Webhook de Discord
 
 
+<img width="736" height="551" alt="𝐓𝐕♡CHAͶY (@tvchany_) on X" src="https://github.com/user-attachments/assets/ac17affc-48d7-4f8f-8e2c-d4a8c6846c13" />
+
+
 
 
  Estructura del proyecto
