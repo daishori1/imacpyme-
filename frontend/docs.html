@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="./theme.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./log.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireasset — Docs</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/login.html">
+      <i class="bi bi-fire text-warning me-1"></i>Fireasset
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link active" aria-current="page" href="/docs.html">DOCS</a>
+        <a class="nav-link" href="/features.html">FEATURES</a>
+        <a class="nav-link" href="/pricing.html">PRICING</a>
+        <a href="/auth/google" class="btn btn-primary ms-lg-3">
+          <i class="bi bi-google me-1"></i>Sign in
+        </a>
+        <button class="btn btn-outline-secondary ms-2" onclick="toggleTheme()">
+          <i id="theme-toggle-icon" class="bi bi-moon-stars-fill"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5" style="max-width: 760px;">
+    <h1 class="mb-4"><i class="bi bi-file-earmark-text text-primary me-2"></i>Documentation</h1>
+
+    <p class="lead text-body-secondary">
+        Fireasset is a lightweight inventory management system built as a student project —
+        track stock, vendors, and team access from one dashboard.
+    </p>
+
+    <hr class="my-4">
+
+    <h4 class="mb-3">Getting started</h4>
+    <ol class="mb-4">
+        <li class="mb-2">Sign in with a Google account that's been added to the system by an administrator.</li>
+        <li class="mb-2">Once signed in, you land on the dashboard, showing stock KPIs, recent activity, and value by brand.</li>
+        <li class="mb-2">Use the sidebar to navigate to Stock, Vendors, or Users — each with a table view and an add form.</li>
+    </ol>
+
+    <h4 class="mb-3">Core features</h4>
+    <ul class="mb-4">
+        <li class="mb-2"><strong>Stock tracking</strong> — every item has a serial number, brand, cost, owner, and location. Fields are editable inline from the table.</li>
+        <li class="mb-2"><strong>Low / high stock alerts</strong> — items below their minimum or above their maximum are flagged automatically, and a notification is sent to a Discord channel.</li>
+        <li class="mb-2"><strong>Google sign-in</strong> — access is controlled by a whitelist; only emails already registered as active users can log in.</li>
+        <li><strong>Filters</strong> — every table supports filtering by its most relevant fields (name, email, product, vendor, owner, quantity, cost).</li>
+    </ul>
+
+    <h4 class="mb-3">Tech stack</h4>
+    <p class="text-body-secondary">
+        Node.js and Express power the backend, PostgreSQL (hosted on NeonDB) stores the data,
+        and the frontend is plain HTML, CSS, and JavaScript with Bootstrap for layout.
+    </p>
+
+    <hr class="my-4">
+
+    <p  class="text-body-secondary mb-0">
+        Source code is available on
+        <a href="https://github.com/daishori1" target="_blank" rel="noopener noreferrer">GitHub</a>.
+    </p>
+</div>
+
+<hr>
+<p class="text-center fw-semibold text-muted">STILL GET IN CONTACT WITH US</p>
+
+<div class="d-flex justify-content-center gap-4 pb-3 social-icons">
+  <a href="https://discord.gg/7xDdCR7ac" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="Discord">
+    <i class="bi bi-discord"></i>
+  </a>
+  <a href="https://x.com/tu-usuario" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="X">
+    <i class="bi bi-twitter-x"></i>
+  </a>
+  <a href="https://www.instagram.com/fireaseet?stkn=eTE0bXV2dnVuMGl3" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="Instagram">
+    <i class="bi bi-instagram"></i>
+  </a>
+  <a href="https://github.com/daishori1" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="GitHub">
+    <i class="bi bi-github"></i>
+  </a>
+</div>
+
+<p class="text-center text-muted small pb-4">
+    Fireasset — Powered by Maymic
+</p>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

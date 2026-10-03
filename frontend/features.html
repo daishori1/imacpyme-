@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="./theme.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./log.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireasset — Features</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/login.html">
+      <i class="bi bi-fire text-warning me-1"></i>Fireasset
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/docs.html">DOCS</a>
+        <a class="nav-link active" aria-current="page" href="/features.html">FEATURES</a>
+        <a class="nav-link" href="/pricing.html">PRICING</a>
+        <a href="/auth/google" class="btn btn-primary ms-lg-3">
+          <i class="bi bi-google me-1"></i>Sign in
+        </a>
+        <button class="btn btn-outline-secondary ms-2" onclick="toggleTheme()">
+          <i id="theme-toggle-icon" class="bi bi-moon-stars-fill"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5" style="max-width: 900px;">
+    <h1 class="text-center mb-5"><i class="bi bi-stars text-primary me-2"></i>Features</h1>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="feature-card p-4 h-100">
+                <i class="bi bi-box-seam fs-1 text-primary mb-3 d-block"></i>
+                <h5 class="fw-semibold">Stock tracking</h5>
+                <p class="text-body-secondary mb-0">
+                    Every item gets a serial number, brand, cost, owner, and location.
+                    Edit fields directly from the table — no separate edit page needed.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card p-4 h-100">
+                <i class="bi bi-shield-check fs-1 text-primary mb-3 d-block"></i>
+                <h5 class="fw-semibold">Secure access</h5>
+                <p class="text-body-secondary mb-0">
+                    Google sign-in with a server-side whitelist — only emails your
+                    admin has registered can access the dashboard.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card p-4 h-100">
+                <i class="bi bi-bell fs-1 text-primary mb-3 d-block"></i>
+                <h5 class="fw-semibold">Stock alerts</h5>
+                <p class="text-body-secondary mb-0">
+                    Items below minimum or above maximum stock are flagged on the
+                    dashboard and reported automatically to a Discord channel.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card p-4 h-100">
+                <i class="bi bi-pie-chart fs-1 text-primary mb-3 d-block"></i>
+                <h5 class="fw-semibold">Live dashboard</h5>
+                <p class="text-body-secondary mb-0">
+                    KPIs, recent activity, and a breakdown of inventory value by
+                    brand, updated in real time from your database.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card p-4 h-100">
+                <i class="bi bi-funnel fs-1 text-primary mb-3 d-block"></i>
+                <h5 class="fw-semibold">Smart filters</h5>
+                <p class="text-body-secondary mb-0">
+                    Every table filters by its most useful fields — name, email,
+                    product, vendor, owner, quantity, or cost.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card p-4 h-100">
+                <i class="bi bi-moon-stars fs-1 text-primary mb-3 d-block"></i>
+                <h5 class="fw-semibold">Dark mode</h5>
+                <p class="text-body-secondary mb-0">
+                    A full Dracula-themed dark mode, saved per browser and applied
+                    across every page of the app.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<p class="text-center fw-semibold text-muted">STILL GET IN CONTACT WITH US</p>
+
+<div class="d-flex justify-content-center gap-4 pb-3 social-icons">
+  <a href="https://discord.gg/7xDdCR7ac" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="Discord">
+    <i class="bi bi-discord"></i>
+  </a>
+  <a href="https://x.com/tu-usuario" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="X">
+    <i class="bi bi-twitter-x"></i>
+  </a>
+  <a href="https://www.instagram.com/fireaseet?stkn=eTE0bXV2dnVuMGl3" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="Instagram">
+    <i class="bi bi-instagram"></i>
+  </a>
+  <a href="https://github.com/daishori1" target="_blank" rel="noopener noreferrer" class="text-decoration-none" aria-label="GitHub">
+    <i class="bi bi-github"></i>
+  </a>
+</div>
+
+<p class="text-center text-muted small pb-4">
+    Fireasset — Powered by Maymic
+</p>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

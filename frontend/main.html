@@ -29,8 +29,8 @@
                 </h2>
                 <div id="collapseStock" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                     <div class="accordion-body p-0">
-                        <a href="/stock.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Ver tabla</a>
-                        <a href="/stock-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Agregar</a>
+                        <a href="/stock.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">View table</a>
+                        <a href="/stock-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">add</a>
                     </div>
                 </div>
             </div>
@@ -44,8 +44,8 @@
                 </h2>
                 <div id="collapseVendors" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                     <div class="accordion-body p-0">
-                        <a href="/vendors.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Ver tabla</a>
-                        <a href="/vendors-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Agregar</a>
+                        <a href="/vendors.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">View table</a>
+                        <a href="/vendors-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">add</a>
                     </div>
                 </div>
             </div>
@@ -59,8 +59,8 @@
                 </h2>
                 <div id="collapseUsers" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                     <div class="accordion-body p-0">
-                        <a href="/users.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Ver tabla</a>
-                        <a href="/users-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">Agregar</a>
+                        <a href="/users.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">View table</a>
+                        <a href="/users-add.html" class="d-block text-white-50 px-3 py-2 text-decoration-none sidebar-link">add</a>
                     </div>
                 </div>
             </div>
@@ -97,6 +97,7 @@
                     <li class="text-center text-muted small py-2">Loading...</li>
                 </ul>
             </div>
+            
         </div>
 
         <!-- KPIs -->
@@ -135,7 +136,7 @@
             </div>
         </div>
 
-        <h5 class="mb-3"><i class="bi bi-clock-history me-2 text-primary"></i>Últimos 10 movimientos de stock</h5>
+        <h5 class="mb-3"><i class="bi bi-clock-history me-2 text-primary"></i>Last 10 stock movements</h5>
 
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body">
@@ -144,12 +145,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Producto</th>
-                                <th>Marca</th>
+                                <th>Product</th>
+                                <th>Brand</th>
                                 <th>Stock</th>
-                                <th>Costo</th>
-                                <th>Ubicación</th>
-                                <th>Última actividad</th>
+                                <th>Cost</th>
+                                <th>Location</th>
+                                <th>Last Activity</th>
                             </tr>
                         </thead>
                         <tbody id="tabla-body">
@@ -160,12 +161,12 @@
             </div>
         </div>
 
-        <div class="card shadow-sm border-0" style="max-width: 500px;">
+        <div class="card shadow-sm border-0" style="max-width: 750px;">
             <div class="card-body">
                 <h5 class="card-title text-center mb-3">
                     <i class="bi bi-pie-chart-fill me-2 text-primary"></i>Asset Value by Brand
                 </h5>
-                <div style="position: relative; height: 260px;">
+                <div style="position: relative; height: 350px;">
                     <canvas id="valueChart"></canvas>
                 </div>
             </div>
@@ -357,6 +358,43 @@ fetch('/stock/recent')
             '<tr><td colspan="7" class="text-center text-danger">Error al cargar datos</td></tr>';
     });
 </script>
+<script>
+(function checkAndNotifyLowStock() {
+    const THROTTLE_MS = 10 * 60 * 1000; // 10 minutos
+    const lastSent = localStorage.getItem('lastStockNotify');
+    const now = Date.now();
 
+    if (lastSent && (now - parseInt(lastSent)) < THROTTLE_MS) {
+        return; // ya se mandó recientemente, no repetir
+    }
+
+    fetch('/stock/notify-low', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            localStorage.setItem('lastStockNotify', String(now));
+            console.log('Stock notification check:', data.message || data);
+        })
+        .catch(err => console.error('Notify error:', err));
+})();
+</script>
+<script>
+(function checkAndNotifyLowStock() {
+    const THROTTLE_MS = 10 * 60 * 1000; // 10 minutos
+    const lastSent = localStorage.getItem('lastStockNotify');
+    const now = Date.now();
+
+    if (lastSent && (now - parseInt(lastSent)) < THROTTLE_MS) {
+        return; // ya se mandó recientemente, no repetir
+    }
+
+    fetch('/stock/notify-low', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            localStorage.setItem('lastStockNotify', String(now));
+            console.log('Stock notification check:', data.message || data);
+        })
+        .catch(err => console.error('Notify error:', err));
+})();
+</script>
 </body>
 </html>

@@ -199,3 +199,15 @@
     background-color: #2d2f3d !important;
     color: #bd93f9 !important;
 }
+[data-theme="dark"] a , p {
+    color: #8be9fd;
+}
+
+[data-theme="dark"]p, a:hover {
+    color: #50fa7b;
+}
+
+[data-theme="dark"] .text-body-secondary,
+[data-theme="dark"] .lead {
+    color: #9fa8c3 !important;
+}
